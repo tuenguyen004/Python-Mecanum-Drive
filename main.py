@@ -22,6 +22,9 @@
 #       "d"         = strafe right
 #       "q"         = rotate left (CCW) 
 #       "e"         = rotate right (CW) 
+#       "o"         = decrease speed
+#       "p"         = increase speed
+#       "x"         = reset speed to default
 #       "z"         = disconnect from robot
 #
 # Created by Tue Nguyen (tnguye27)
@@ -32,15 +35,21 @@ from kbhit import KBHit
 from MecanumDrive import MecanumDrive
 from threading import Thread
 
+
+# ================================
 # Setting up RaspberryPi GPIO pins
+# ================================
 os.system("python3 pigpio_setup.py")  
 pi = pigpio.pi()
-drivetrain = MecanumDrive(pi, 0.0025, 0.5)
-
-global user_input
-user_input = "_"
+drivetrain = MecanumDrive(pi)
 verbose = True  # Prints current program status to stdout
 
+
+# ===========================================================
+# Setting up ReadUserInput Program and Begin Parallel Running
+# ===========================================================
+global user_input
+user_input = "_"
 class ReadUserInput:
     def __init__(self):
         self._running = True
@@ -57,29 +66,51 @@ class ReadUserInput:
             if keyboard.kbhit():
                 user_input = keyboard.getch()
                 # if verbose: print(user_input)
-                if user_input == ' ' or user_input == 'z': 
+                if user_input == 'z':
+                    pass
+                
+                elif user_input == ' ': 
                     if verbose: print('Stop moving\n')
                     drivetrain.stopMoving()
+
                 elif user_input == 'w':
                     if verbose: print('Going forward\n') 
                     drivetrain.moveForward()
+
                 elif user_input == 's':
                     if verbose: print('Going backward\n') 
                     drivetrain.moveBackward()
+
                 elif user_input == 'a':
                     if verbose: print('Strafing Left\n')
                     drivetrain.moveSidewaysLeft()
+
                 elif user_input == 'd':
                     if verbose: print('Strafing Right\n') 
                     drivetrain.moveSidewaysRight()
+
                 elif user_input == 'q':
                     if verbose: print('Rotating in-place CCW\n') 
                     drivetrain.rotateLeft()
+
                 elif user_input == 'e':
                     if verbose: print('Rotating in-place CW\n') 
                     drivetrain.rotateRight()
+
+                elif user_input == 'o':
+                    drivetrain.decreaseSpeed()
+                    if verbose: print('Decreasing speed\n') 
+                    
+                elif user_input == 'p':
+                    drivetrain.increaseSpeed()
+                    if verbose: print('Increasing speed\n') 
+                    
+                elif user_input == 'x':
+                    drivetrain.resetSpeed()
+                    if verbose: print("Reseting back to default speed...\n")
+                    
                 else:
-                    if verbose: print('Input not mapped, staying still...\n')
+                    if verbose: print('Input not mapped...\n')
             # else:
                 # user_input = "_"
                 # drivetrain.stopMoving()
@@ -89,8 +120,11 @@ input = ReadUserInput()
 inputThread = Thread(target=input.run) 
 inputThread.start()
 
+
+# ==================
 # Main Control Loop
-if verbose: print('Connecting to Robot Chassis...\n')
+# ==================
+if verbose: print('\n\n\nConnecting to Robot Chassis...\n')
 connectRobot = True                                 # Exit flag
 while connectRobot == True:
     # time.sleep(0.01) 
@@ -98,6 +132,10 @@ while connectRobot == True:
     drivetrain.run()
     if(user_input == 'z'): connectRobot = False     # Exit Program
     
+
+# ========================
+# Clearning Up the Program
+# ========================
 if verbose: print('Disconnecting to Robot Chassis...\n')
 pi.stop()
 input.terminate()
