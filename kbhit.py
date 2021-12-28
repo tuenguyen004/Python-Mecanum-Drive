@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+#
+# Credits to Michel Blancard on Github for the Windows and Linux-compatible 
+# implementation of the KBHit module
+# https://github.com/michelbl/intro-info/blob/feaf91940ea0f0b4c8271b391710139a02f9c36d/kbhit.py
 
 '''
 A Python class implementing KBHIT, the standard keyboard-interrupt poller.

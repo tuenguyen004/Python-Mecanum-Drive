@@ -125,12 +125,10 @@ inputThread.start()
 # Main Control Loop
 # ==================
 if verbose: print('\n\n\nConnecting to Robot Chassis...\n')
-connectRobot = True                                 # Exit flag
+connectRobot = True                                 
 while connectRobot == True:
-    # time.sleep(0.01) 
-    # # print(user_input)
     drivetrain.run()
-    if(user_input == 'z'): connectRobot = False     # Exit Program
+    if(user_input == 'z'): connectRobot = False     
     
 
 # ========================

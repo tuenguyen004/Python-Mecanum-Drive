@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # pigpio_setup.py
-# 
+#  
 # Automated the setup for pigpio module used in main.py
 #
 # Credits to user uhoh on Raspberry Pi Stack Exchange (link below)

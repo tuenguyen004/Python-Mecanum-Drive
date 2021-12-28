@@ -2,7 +2,7 @@
 # threading_test.py
 # 
 # A simple Python script used to test multithreading on Raspberry Pi
-#
+# 
 # Credits to Rob's Raspberry Pi Blog (link below)
 # http://robsraspberrypi.blogspot.com/2016/01/raspberry-pi-python-threading.html
 

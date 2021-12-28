@@ -45,9 +45,9 @@ class StepperMotor:
         self.direction = direction  
                                     
     def doStepAndDelay(self, delayAfterStep):
-        if(self.direction == 1):    # 1 = clockwise 
+        if(self.direction == 1):        # 1 = clockwise 
             self.deque.rotate(-1)
-        elif(self.direction == -1): # -1 = counterclockwise
+        elif(self.direction == -1):     # -1 = counterclockwise
             self.deque.rotate(1)
         else:
             return
